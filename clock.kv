@@ -1,0 +1,69 @@
+<Label>:
+    markup: True
+<widget>:
+<Button>:
+    background_normal:''
+    background_color:(0,0,0,0)
+    font_size:24
+
+<RoundedButton@Button>:
+    canvas.before:
+        Color:
+            rgba:(1,0,0,1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius:[15]
+<RoundedButton1@Button>:
+    canvas.before:
+        Color:
+            rgba:(0,0,1,1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius:[15]
+<TabbedPanelItem>
+    color:"#e9eafc"
+    font_size:18
+TabbedPanel:
+    do_default_tab: False
+    background_image:"./bg.jpg"
+    TabbedPanelItem:
+        text:"Clock"
+        
+        BoxLayout:
+            orientation:"vertical"
+            
+            Label:
+                id:time
+                font_size:18
+                halign:'center'
+    TabbedPanelItem:
+        text:"stopwatch"
+
+        BoxLayout:
+            orientation:"vertical"
+
+            Label:
+                id:stopwatch
+                font_size:60
+            BoxLayout:
+                orientation:"horizontal"
+                height:"90"
+                padding:20
+                spacing:20
+                size_hint:(1,None)
+
+                RoundedButton:
+                    id:start_stop
+                    text:"start"
+                    on_press: app.start_stop()
+                RoundedButton1:
+                    id:reset
+                    text:"reset"
+                    on_press: app.reset()
+
+    TabbedPanelItem:
+        text:"Timer"
+    TabbedPanelItem:
+        text:"Alarm"
