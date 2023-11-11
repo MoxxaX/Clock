@@ -1,5 +1,6 @@
 <Label>:
     markup: True
+    halign: 'center'
 <widget>:
 <Button>:
     background_normal:''
@@ -25,7 +26,17 @@
 <TabbedPanelItem>
     color:"#e9eafc"
     font_size:18
+
+<BtnBoxLayout@BoxLayout>:
+    orientation:"horizontal"
+    height:90
+    padding:20
+    spacing:20
+    size_hint:(1,None)
+
+
 TabbedPanel:
+    alarm_time: time_input 
     do_default_tab: False
     background_image:"./bg.jpg"
     TabbedPanelItem:
@@ -47,12 +58,8 @@ TabbedPanel:
             Label:
                 id:stopwatch
                 font_size:60
-            BoxLayout:
-                orientation:"horizontal"
-                height:"90"
-                padding:20
-                spacing:20
-                size_hint:(1,None)
+            BtnBoxLayout:
+                
 
                 RoundedButton:
                     id:start_stop
@@ -63,7 +70,56 @@ TabbedPanel:
                     text:"reset"
                     on_press: app.reset()
 
-    TabbedPanelItem:
-        text:"Timer"
+
     TabbedPanelItem:
         text:"Alarm"
+
+        BoxLayout:
+            orientation:"vertical"
+            padding:20
+            spacing:20
+
+            Label:
+                id: state
+                text:'masukkan jam disini dengan format "HH:MM AM/PM"\n Contoh,[09:13 PM]'
+                font_size:15
+
+            TextInput:
+                id:time_input
+                multiline: False
+
+            BtnBoxLayout:
+                RoundedButton:
+                    text:"set alarm"
+                    on_press:app.set_alarm(time_input.text)
+
+    TabbedPanelItem:
+        text: "Timer"
+        
+        BoxLayout:
+            orientation: "vertical"
+            padding: 20
+            spacing:20
+            
+            Label:
+                id: show
+                text: 'masukkan waktu untuk timer dengan format"HH:MM:SS"\n contoh, :00:30'
+                font_size: 15
+                
+            TextInput:
+                id: text_input
+                text: '00:00:00'
+                            
+            BtnBoxLayout:
+                
+                RoundedButton:
+                    id: button
+                    text: "Start"
+                    on_press: app.toggle()
+                    
+                RoundedButton1:
+                    text: "Pause"
+                    on_press: app.pause()
+
+    TabbedPanelItem:
+        text:"Timer"
