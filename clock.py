@@ -11,30 +11,37 @@ from time import strftime
 import re
 
 
-Window.size = (400,400)
+Window.size = (444,444)
 
 class ClockApp(App):
     stopwatch_started = False
     stopwatch_seconds = 0
 
+    alarm_time= " "
+
     running = False
 
-    alarm_time= ''
+   
 
     def on_start(self):
         Clock.schedule_interval(self.update, 0)
+
     def update(self,tick):
-        self.root.ids.time.text = strftime("[size=69]%I:%M:%S%p[/size]\n %a,%B %d")
+        self.root.ids.time.text = strftime("[size=69]%I:%M:%S %p[/size]\n %a,%B %d")
         if self.stopwatch_started:
             self.stopwatch_seconds += tick
+
         m, s = divmod(self.stopwatch_seconds,60)
 
+        self.root.ids.stopwatch.text = ("%02d:%02d.[size=40]%02d[/size]"%(int(m),int(s),int(s*100%100)))
+
         if self.alarm_time == strftime('%I:%M %p'):
+
             if strftime('%S') == '00' and strftime('%S') < '09':
-                self.root.ids.state.text = "[size=60]BANGUN BRO![/size]"
+                self.root.ids.check_time.text = "[size=60]BANGUN BRO![/size]"
                 self.sound = SoundLoader.load('./bangun.mp3')
                 self.sound.play()
-        self.root.ids.stopwatch.text = ("%02d:%02d.[size=40]%02d[/size]"%(int(m),int(s),int(s*100%100)))
+        
     def start_stop(self):
         self.root.ids.start_stop.text = 'start' if  self.stopwatch_started else 'stop'
         self.stopwatch_started = not self.stopwatch_started
@@ -42,10 +49,17 @@ class ClockApp(App):
         if self.stopwatch_started:
             self.root.ids.start_stop.text = 'start'
             self.stopwatch_started = False
+            
         self.stopwatch_seconds = 0
-    def press(self, alarm_time):
+        
+     def stop_alarm(self):
+        if hasattr(self, 'sound') and self.sound:
+            self.sound.stop()
+            self.reset()
+
+    def set_alarm(self, alarm_time):
         if len(alarm_time) != 8:
-            self.root.ids.check_time.text = "Invalid time format!\nTry add a zero before the hour \nif it's less than 10 and or add PM/AM"
+            self.root.ids.check_time.text = "Invalid time format!\nTry add a zero before the hour \n if it's less than 10 and or add PM/AM"
         else:
             if int(alarm_time[0:2]) > 12:
                 self.root.ids.check_time.text = "Invalid HOUR format! Please try again..."
@@ -79,10 +93,10 @@ class ClockApp(App):
                     self.running = True
                     Clock.schedule_interval(self.begin, 0.05)
                       
-    def reset(self): 
+    def resett(self): 
         
         self.root.ids.button.text = 'Start' 
-        self.root.ids.show.text = 'Enter the time to countdown in this format "HH:MM:SS"\n For example, [font=GOTHICB]00:00:30[/font]'
+        self.root.ids.show.text = 'Enter the time to countdown in this format "HH:MM:SS"\n For example,00:00:30'
         self.root.ids.text_input.text = '00:00:00'
             
         if self.running:  
@@ -102,12 +116,12 @@ class ClockApp(App):
         if delta[0:7]  == "0:00:00":
            
             '0' + delta[0:7]
-            self.sound = SoundLoader.load('.bangun.mp3')
+            self.sound = SoundLoader.load('./bangun.mp3')
             self.sound.play()
             self.reset()
     def toggle(self):
         if self.running:
-            self.reset()
+            self.resett()
         else:
             self.start()  
 

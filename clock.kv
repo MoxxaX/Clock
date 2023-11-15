@@ -45,7 +45,7 @@ TabbedPanel:
     background_image:"./bg.jpg"
     TabbedPanelItem:
         text:"Clock"
-        
+        id: jam
         BoxLayout:
             orientation:"vertical"
             
@@ -60,18 +60,18 @@ TabbedPanel:
             orientation:"vertical"
 
             Label:
-                id:stopwatch
+                id: stopwatch
                 font_size:60
             BtnBoxLayout:
                 
 
                 RoundedButton:
                     id:start_stop
-                    text:"start"
+                    text:'Start'
                     on_press: app.start_stop()
                 RoundedButton1:
                     id:reset
-                    text:"reset"
+                    text:'Reset'
                     on_press: app.reset()
 
 
@@ -84,7 +84,7 @@ TabbedPanel:
             spacing:20
 
             Label:
-                id: state
+                id: check_time
                 text:'masukkan jam disini dengan format "HH:MM AM/PM"\n Contoh,[09:13 PM]'
                 font_size:15
 
@@ -124,6 +124,3 @@ TabbedPanel:
                 RoundedButton1:
                     text: "Pause"
                     on_press: app.pause()
-
-    TabbedPanelItem:
-        text:"Timer"
